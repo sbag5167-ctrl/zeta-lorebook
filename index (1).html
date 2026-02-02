@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZETA Real Character Generator</title>
+    <style>
+        body { background: #1a1a1a; color: #ddd; font-family: sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .card { width: 100%; max-width: 450px; background: #252525; padding: 25px; border-radius: 12px; border: 1px solid #333; }
+        h2 { color: #ffffff; text-align: center; border-bottom: 2px solid #444; padding-bottom: 10px; }
+        input { width: 100%; padding: 12px; margin: 15px 0; background: #111; border: 1px solid #444; border-radius: 6px; color: #fff; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: #e0e0e0; color: #111; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        #output { margin-top: 20px; padding: 15px; background: #000; border-radius: 6px; border-left: 4px solid #fff; white-space: pre-wrap; font-size: 13px; color: #ccc; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>ZETA 캐릭터 로어 생성</h2>
+        <input type="text" id="name" placeholder="이름이나 직업 (예: 차은우, 형사, 복학생)">
+        <button onclick="buildProfile()">프로필 상세 생성</button>
+        <div id="output">이름을 넣고 버튼을 누르세요.</div>
+        <button style="margin-top: 10px; background: #444; color: #fff;" onclick="copyText()">데이터 복사</button>
+    </div>
+
+    <script>
+        function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+        function buildProfile() {
+            const name = document.getElementById('name').value.trim();
+            const out = document.getElementById('output');
+            if(!name) return alert("이름을 입력하세요!");
+
+            const looks = [
+                "날카로운 눈매에 콧날이 오똑하며, 전체적으로 서늘한 분위기를 풍김.",
+                "무심한 듯 헝클어진 머리카락과 짙은 눈썹, 입가에 옅은 미소를 머금은 인상.",
+                "반듯한 이목구비에 깔끔하게 정돈된 스타일로, 신뢰감을 주는 단정한 외모."
+            ];
+            const body = [
+                "운동으로 다져진 탄탄한 근육질 체구이며, 키가 크고 어깨가 벌어져 있어 위압감이 느껴짐.",
+                "슬림하고 탄탄한 잔근육 위주의 체형으로, 몸동작이 가볍고 민첩함.",
+                "모델처럼 긴 팔다리와 곧은 자세를 가졌으며, 어떤 옷을 입어도 태가 나는 타입."
+            ];
+            const personality = [
+                "겉으로는 냉정해 보이지만 내면은 세심하며, 한 번 믿은 사람에게는 끝까지 의리를 지킴.",
+                "여유롭고 능청스러운 말투를 쓰지만, 중요한 순간에는 누구보다 이성적이고 냉철함.",
+                "말수가 적고 조용한 성격이나, 자신의 영역을 침범당하는 것에는 아주 예민하게 반응함."
+            ];
+            const habits = [
+                "생각이 깊어질 때면 습관적으로 턱을 괴거나 시계 줄을 만지작거림.",
+                "상대방을 빤히 쳐다보는 버릇이 있으며, 대화 중간중간 짧은 한숨을 내쉬곤 함.",
+                "항상 주머니에 손을 넣고 걷거나, 낮은 목소리로 혼잣말을 흥얼거리는 버릇이 있음."
+            ];
+
+            const resultText = `[외형/인상] ${pick(looks)}\\n[체형] ${pick(body)}\\n[성격] ${pick(personality)}\\n[특징/습관] ${pick(habits)}`;
+
+            const finalObj = {
+                "key": name,
+                "content": resultText,
+                "enabled": true
+            };
+
+            out.innerText = JSON.stringify(finalObj, null, 4);
+        }
+
+        function copyText() {
+            navigator.clipboard.writeText(document.getElementById('output').innerText).then(() => alert("복사되었습니다!"));
+        }
+    </script>
+</body>
+</html>
